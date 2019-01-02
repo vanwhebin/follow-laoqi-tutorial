@@ -1,0 +1,52 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block title %} LOGIN {% endblock %}
+
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+        <h1>Login</h1>
+        <p>Please input your username and password, or <a href="{% url 'account:user_register' %}">create a account</a></p>
+        <form action="" class="form-horizontal">{% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-user">{{ form.username.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.username }}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-lock">{{ form.password.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.password }}
+                </div>
+            </div>
+
+
+            <input type="submit" value="Login" class="btn btn-primary btn-lg">
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$('form').on('submit', function(event){
+    event.preventDefault();
+    $.post(
+        '{% url 'account:user_login' %}',
+        $('form').serializeArray(),
+        function(res){
+            if (res.code == 200) {
+                window.location.href = res.url;
+
+            } else if (res.code == 400) {
+                alert(res.msg)
+            }
+    })
+});
+</script>
+{% endblock %}

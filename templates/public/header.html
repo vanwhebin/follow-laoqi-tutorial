@@ -1,0 +1,30 @@
+{% load static %}
+<div class="container">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand"><img src="{% static 'img/logo.png' %}" alt="" style="height: 30px"></a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav" role="navigation">
+                <li><a href="{% url 'blog:blog_titles' %}">博客</a></li>
+                <li><a href="{% url 'article:posts' %}">文章</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+                {% if user.is_authenticated %}
+                    <a class="btn btn-default dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" style="margin-top:10%">
+                        {{ user.username }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'account:account_info' %}">account info</a></li>
+                        <li><a href="{% url 'account:password_change' %}">Change password</a></li>
+                        <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
+                    </ul>
+                {% else %}
+                    <li><a href="{% url 'account:user_login' %}">Login</a></li>
+                    <li><a href="{% url 'account:user_register' %}">Sign up</a></li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+</div>

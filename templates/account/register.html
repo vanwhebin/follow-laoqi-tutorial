@@ -1,0 +1,88 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block title %} Sign Up {% endblock %}
+
+{% block content %}
+    <div class="row text-center vertical-middle-sm">
+        <h1>Sign Up</h1>
+        <p>Already have a account? please <a href="{% url 'account:user_login' %}">Sign In</a></p>
+        <form action="" class="form-horizontal">{% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-user">{{ form.username.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.username }}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-user">{{ form.email.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.email }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ profile.birth.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-calendar">{{ profile.birth.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ profile.birth }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ profile.country.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-flag">{{ profile.country.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ profile.country }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-lock">{{ form.password.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.password }}
+                </div>
+            </div>
+
+             <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}" class="col-md-5 control-label" >
+                    <span class="glyphicon glyphicon-lock">{{ form.password2.label }}</span>
+                </label>
+                <div class="col-md-6 text-left">
+                   {{ form.password2 }}
+                </div>
+            </div>
+
+
+            <input type="submit" value="Sign up" class="btn btn-primary btn-sm">
+        </form>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$('form').on('submit', function(event){
+    event.preventDefault();
+    $.post(
+        '{% url 'account:user_register' %}',
+        $('form').serializeArray(),
+        function(res){
+            if (res.code == 200) {
+                alert(res.msg);
+
+            } else if (res.code == 400) {
+                alert(res.msg)
+            }
+    })
+});
+</script>
+{% endblock %}

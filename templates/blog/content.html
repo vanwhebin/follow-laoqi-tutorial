@@ -1,0 +1,29 @@
+{% extends 'blog/../public/base.html' %}
+{% load static %}
+{% block title %} Blog title {% endblock %}
+
+{% block content %}
+
+    <div class="row text-center vertical-middle-sm">
+        <h1>{{ article.title }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <p class="text-center">
+                <span>{{ article.author.username }}</span>
+                <span style="margin-left: 20px">{{ publish }}</span>
+
+            </p>
+            <div>
+                {{ article.body }}
+            </div>
+            <div class="col-xs-6 col-md-4">
+                <h2>广告</h2>
+                <p>跟我学</p>
+                <img src="{% static 'img/logo.png' %}" alt="test">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

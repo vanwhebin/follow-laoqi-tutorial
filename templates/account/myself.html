@@ -1,0 +1,72 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block title %}My Account {% endblock %}
+
+{% block content %}
+
+
+<div class="row text-center vertical-middle-sm">
+    <h1>My Information</h1><span><a href="{% url 'account:edit_account_info' %}">edit</a></span>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4 text-right"><span>用户名：</span></div>
+                <div class="col-md-4 text-right">{{ user.username }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>邮箱：</span></div>
+                <div class="col-md-4 text-right">{{ user.email }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>生日：</span></div>
+                <div class="col-md-4 text-right">{{ user_profile.birth }}</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>国家：</span></div>
+                <div class="col-md-4 text-right">{{ user_profile.country }}</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>毕业学校：</span></div>
+                <div class="col-md-4 text-right">{{ user_info.school }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>公司：</span></div>
+                <div class="col-md-4 text-right">{{ user_info.company }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>职业：</span></div>
+                <div class="col-md-4 text-right">{{ user_info.profession }}</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>地址：</span></div>
+                <div class="col-md-4 text-right">{{ user_info.address }}</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 text-right"><span>自我介绍：</span></div>
+                <div class="col-md-4 text-right">{{ user_info.aboutme }}</div>
+            </div>
+        </div>
+
+         <div class="col-md-6">
+            <img src="{% static 'img/luxun.jpeg' %}" alt="profile_image" class="image-circle" width="270" id="my-photo">
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

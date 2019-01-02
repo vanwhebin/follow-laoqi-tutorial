@@ -1,0 +1,85 @@
+{% extends 'public/base.html' %}
+{% load static %}
+
+{% block title %}Edit Account {% endblock %}
+
+{% block content %}
+
+
+<div class="row text-center vertical-middle-sm">
+    <h1>Edit Information</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="" class="form-horizontal" method="POST">{% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>用户名：</span></div>
+                    <div class="col-md-4 text-right">{{ user_form.username }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>邮箱：</span></div>
+                    <div class="col-md-4 text-right">{{ user_form.email }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>生日：</span></div>
+                    <div class="col-md-4 text-right">{{ user_profile_form.birth }}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>国家：</span></div>
+                    <div class="col-md-4 text-right">{{ user_profile_form.country }}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>毕业学校：</span></div>
+                    <div class="col-md-4 text-right">{{ user_info_form.school }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>公司：</span></div>
+                    <div class="col-md-4 text-right">{{ user_info_form.company }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>职业：</span></div>
+                    <div class="col-md-4 text-right">{{ user_info_form.profession }}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>地址：</span></div>
+                    <div class="col-md-4 text-right">{{ user_info_form.address }}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>自我介绍：</span></div>
+                    <div class="col-md-4 text-right">{{ user_info_form.aboutme }}</div>
+                </div>
+
+                <div class="row"><input type="submit" class="btn btn-primary btn-sm" value="提交"></div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'img/luxun.jpeg' %}" alt="profile_image" class="img-circle" width="270" id="my-photo">
+            <div><button id="upload_image" class="btn btn-default btn-sm">upload my photo</button></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+    $('form').on('submit', function(event){
+        event.preventDefault();
+        $.post('{% url 'account:edit_account_info' %}', $(this).serializeArray(), function(res){
+            console.log(res)
+            alert(res.msg)
+        })
+
+    })
+
+
+{% endblock %}

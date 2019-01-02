@@ -1,0 +1,41 @@
+{% extends 'article/base.html' %}
+{% load static %}
+
+{% block title %}文章列表{% endblock %}
+
+{% block content %}
+    <div>
+        <p class="text-right">
+            <a class="btn btn-primary btn-xs" href="{% url "article:article_post" %}">创建文章</a>
+        </p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>标题</td>
+                    <td>栏目</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+                    <td>{{ post.column }}</td>
+                    <td  data-id="{{ post.id }}" data-del_url="{% url 'article:edit_article_post' pk=post.id %}">
+                        <a href="{% url 'article:edit_article_post' pk=post.id %}" class="edit-post">编辑</a>
+                        / <a href="javascript:void(0)" class="del-post">删除</a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'public/pagination.html' %}
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'public/layer/layer.js' %}"></script>
+    <script src="{% static 'js/article.js' %}"></script>
+{% endblock %}

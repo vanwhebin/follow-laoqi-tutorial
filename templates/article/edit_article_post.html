@@ -1,0 +1,48 @@
+{% extends 'article/base.html' %}
+{% load static %}
+{% block title %}编辑文章{% endblock %}
+
+{% block content %}
+    <div style="margin-left:10px">
+        <form action="" class="form-horizontal" id="article-post-form" method="post" data-action="{% url 'article:edit_article_post' pk=post.id %}">{% csrf_token %}
+            <div class="row" style="margin-top: 10px">
+                <div class="col-md-2 text-right"><span>标题</span></div>
+                <div class="col-md-10 text-left" ><span>
+                    <input type="text" name="title" id="id_title" value="{{ post.title }}">
+                </span></div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-md-2 text-right"><span>栏目：</span></div>
+                <div class="col-md-10 text-left">
+                    <select name="column" id="which_column">
+                        {% for i in article_column %}
+                        <option value="{{ i.id }}" {% if i == post.column %}selected {% endif %}> {{ i.column }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-md-2 text-right"><span>栏目：</span></div>
+                <div class="col-md-10 text-left" >
+                    <textarea style="display:block" cols="30" rows="10" name="body" id="id_body">{{ post.body }}</textarea>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <input type="submit" class="btn btn-primary btn-sm" value="提交">
+                <a class="btn btn-primary btn-sm" href="{% url 'article:article_list' %}">取消</a>
+            </div>
+
+        </form>
+
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'public/layer/layer.js' %}"></script>
+    <script src="{% static 'js/article.js' %}"></script>
+{% endblock %}

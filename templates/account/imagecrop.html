@@ -1,0 +1,69 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'public/ImgCrop/css/style.css' %}">
+<div class="container">
+    <div class="imageBox">
+        <div class="thumbBox">
+
+        </div>
+        <div class="spinner" style="display:none">
+        </div>
+    </div>
+
+    <div class="action">
+        <div>
+            <a href="javascript:void(0)" class="upload-img"></a>
+            <input type="file" class="" name="upload-file" id="upload-file" />
+        </div>
+        <input type="button" id="btnCrop" class="Btnsty_peyton" value="OK">
+        <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+        <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-">
+    </div>
+    <div class="cropped"></div>
+</div>
+
+<script src="{% static 'public/ImgCrop/js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'public/ImgCrop/js/cropbox-min.js' %}"></script>
+<script>
+    $(window).load(function(){
+        var options = {thumb: '.thumbBox', spinner: '.spinner', imgSrc: '',};
+        var cropper = $('.imageBox').cropbox(options);
+        var img = '';
+        $('#upload-file').on('change', function(){
+            let reader = new FileReader();
+            reader.onload = function(e){
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+                getImg();
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+
+        })
+
+    });
+
+    $('#btnCrop').on('click', function(){
+        alert('上传图片');
+    });
+
+    function getImg(){
+        img = cropper.getDataURL()
+        $('.cropped').html('')
+        $('cropped').append('<img src="'+  img +'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7e7e7e"><p>180px*180px</p>')
+        $('cropped').append('<img src="'+  img +'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7e7e7e"><p>128px*128px</p>')
+        $('cropped').append('<img src="'+  img +'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7e7e7e"><p>64px*64px</p>')
+
+        $('.imageBox').on('mouseup', function(){
+            getImg();
+        })
+
+        $('#btnZoomIn').on('click', function(){
+            cropper.zoomIn();
+        })
+
+        $('#btnZoomOut').on('click', function(){
+            cropper.zoomOut();
+        })
+    }
+</script>

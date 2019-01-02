@@ -1,0 +1,41 @@
+{% extends 'article/base.html' %}
+{% load static %}
+{% block title %}Article Column{% endblock %}
+
+{% block content %}
+    <div>
+        <p class="text-right"><button class="btn btn-primary add-column btn-xs" data-href="{% url "article:article_column" %}">增加栏目</button></p>
+        <table class="table table-hover">{% csrf_token %}
+            <thead>
+                <thead>
+                    <th>序号</th>
+                    <th>栏目名称</th>
+                    <th>操作</th>
+                </thead>
+
+            </thead>
+            <tbody>
+                {% for column in columns %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td class="column">{{ column.column }}</td>
+                        <td data-id="{{ column.id }}" data-url="{% url 'article:edit_article_column' pk=column.id %}"
+                        data-del_url="{% url 'article:del_article_column' pk=column.id %}"
+                        >
+                            <a href="javascript:void(0)" class="edit-column">
+                            <span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="javascript:void(0)"  class="del-column">
+                            <span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                {% empty %}
+                    <p>Ta没有设置任何栏目，太懒了</p>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'public/layer/layer.js' %}"></script>
+    <script src="{% static 'js/article.js' %}"></script>
+
+{% endblock %}
