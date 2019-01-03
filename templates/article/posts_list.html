@@ -4,35 +4,20 @@
 {% block title %}文章列表{% endblock %}
 
 {% block content %}
-    <div>
-        <p class="text-right">
-            <a class="btn btn-primary btn-xs" href="{% url "article:article_post" %}">创建文章</a>
-        </p>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <td>序号</td>
-                    <td>标题</td>
-                    <td>栏目</td>
-                    <td>操作</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for post in posts %}
-                <tr>
-                    <td>{{ post.id }}</td>
-                    <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
-                    <td>{{ post.column }}</td>
-                    <td  data-id="{{ post.id }}" data-del_url="{% url 'article:edit_article_post' pk=post.id %}">
-                        <a href="{% url 'article:edit_article_post' pk=post.id %}" class="edit-post">编辑</a>
-                        / <a href="javascript:void(0)" class="del-post">删除</a>
+    <div class="row text-center vertical-middle-sm">
+        <h1>阅读，　丰富头脑，善化行为</h1>
+    </div>
+    <div class="container">
+       {% for post in posts %}
+           <div class="list-group">
+               <a href="{{ post.get_absolute_path }}" class="list-group-item">
+                   <h4 class="list-group-item-heading">标题：　{{ post.title }}</h4>
+                   <p class="list-group-item-text">作者：　<a href="{% url 'article:author_posts' author=post.author.username %}">{{ post.author.username }}</a></p>
+                   <p class="list-group-item-text">概要：　{{ post.body | truncatewords:'70' | linebreaks }}</p>
+               </a>
 
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+           </div>
+        {% endfor %}
         {% include 'public/pagination.html' %}
     </div>
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
