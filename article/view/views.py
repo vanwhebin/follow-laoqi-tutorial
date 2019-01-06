@@ -1,13 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import ArticleColumn, ArticlePost
-from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, reverse
+from article.models import ArticleColumn, ArticlePost
 from django.contrib.auth.decorators import login_required
-from .forms import ArticleColumnForm, ArticlePostForm
-from django.http import JsonResponse, HttpResponse
+from article.forms import ArticleColumnForm, ArticlePostForm
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import ListView, DetailView
 
 
 @login_required(login_url='/account/login/')
@@ -78,7 +76,7 @@ def article_post(request):
 @login_required(login_url='/account/login/')
 def article_list(request):
     articles = ArticlePost.objects.filter(author=request.user)
-    paginator = Paginator(articles, 2)
+    paginator = Paginator(articles, 5)
     page = request.GET.get('page')
     try:
         current_page = paginator.page(page)
@@ -94,7 +92,7 @@ def article_list(request):
 
 def post_list(request):
     articles = ArticlePost.objects.all()
-    paginator = Paginator(articles, 2)
+    paginator = Paginator(articles, 5)
     page = request.GET.get('page')
     try:
         current_page = paginator.page(page)
@@ -106,33 +104,6 @@ def post_list(request):
         current_page = paginator.page(paginator.num_pages)
         articles = current_page.object_list
     return render(request, 'article/posts_list.html', {'posts': articles, 'page': current_page})
-
-
-def post_detail(request):
-
-    return
-
-
-class PostListNew(ListView):
-    template_name = 'article/posts_list.html'
-    context_object_name = 'posts'
-    model = ArticlePost
-    paginate_by = 2
-
-    def get_queryset(self, *args, **kwargs):
-        if self.kwargs['author']:
-            user = User.objects.get(username=self.kwargs['author'])
-            return ArticlePost.objects.filter(author=user)
-        else:
-            return ArticlePost.objects.all()
-
-
-class PostDetailNew(DetailView):
-    template_name = 'article/article_detail.html'
-    context_object_name = 'article'
-
-    def get_queryset(self, *args, **kwargs):
-        return ArticlePost.objects.filter(pk=self.kwargs['pk'], slug=self.kwargs['slug'])
 
 
 @login_required(login_url='/account/login')
@@ -171,4 +142,4 @@ def def_article_post(request, pk):
 @login_required(login_url='/account/login')
 def article_detail(request, pk, slug):
     article = get_object_or_404(ArticlePost, id=pk, slug=slug)
-    return render(request, 'article/article_detail.html', {'article': article})
+    return render(request, 'article/post_detail.html', {'article': article})

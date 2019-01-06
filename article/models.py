@@ -22,6 +22,7 @@ class ArticlePost(models.Model):
     body = models.TextField()
     create_time = models.DateTimeField(default=timezone.now)
     update_time = models.DateTimeField(auto_now_add=True)
+    user_like = models.ManyToManyField(User, related_name='article_name', blank=True)
 
     class Meta:
         ordering = ('title',)
@@ -39,3 +40,16 @@ class ArticlePost(models.Model):
 
     def get_absolute_path(self):
         return reverse('article:detail_class', args=[self.id, self.slug])
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(ArticlePost, related_name='comment', on_delete=models.CASCADE)
+    commentator = models.CharField(max_length=100)
+    body = models.TextField()
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('create_time', )
+
+    def __str__(self):
+        return "Comment by {0} on {1}".format(self.commentator.username, self.article)

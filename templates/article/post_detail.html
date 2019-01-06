@@ -1,0 +1,94 @@
+{% extends 'article/post_base.html' %}
+{% load static %}
+{% block title %} 文章详情　{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>
+            {{ article.title }}
+        </h1>
+            {{ article.author.username }}
+            {{ views }} view{{ views| pluralize }}
+            <a ><span class="glyphicon glyphicon-thumbs-up "></span></a>
+            {% if article.user_like.count  %}
+                <span class="thumb-up-count">{{ article.user_like.count }}</span> like{{ article.user_like.count | pluralize}}
+            {% else %}
+                <span class="thumb-up-count">0</span> like{{ article.user_like.count | pluralize}}
+            {% endif %}
+
+        </p>
+        <div class="col-md-9">
+            {{ article.body }}
+        </div>
+        <div class="col-md-3">
+            <p class="text-center"><h3>最受欢迎的文章</h3></p>
+            <ul>
+                {% for view_page in most_viewed %}
+                <li>
+                    <a href="{{ view_page.get_absolute_path }}">{{ view_page.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="text-center" data-url="{% url 'article:like_post' %}" data-id="{{ article.id }}">
+
+            <a href="javascript:void(0)" class="thumb-up"><span class="glyphicon glyphicon-thumbs-up "></span></a>
+            {% if article.user_like.count  %}
+                <span class="thumb-up-count">{{ article.user_like.count }}</span> like{{ article.user_like.count | pluralize}}
+            {% else %}
+                <span class="thumb-up-count">0</span> like{{ article.user_like.count | pluralize}}
+            {% endif %}
+            <a href="javascript:void(0)" class="thumb-down"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+        </div>
+        <hr>
+        <div class="row col-md-12">
+            <h3><span class="glyphicon glyphicon-bullhorn"></span>本文有{{ article.comment.count }}条评论</h3>
+            <div id="comments">
+                {% for comment in article.comment.all %}
+                <div>
+                    <p><strong>{{ comment.commentator }}</strong></p>
+                    <p style="margin-left:40px">{{ comment.body }}</p>
+                </div>
+                {% empty %}
+                <div class="no-comment">
+                    <p>本文还没有评论</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h3><span class="glyphicon glyphicon-send"></span>说两句呗</h3>
+            <form action="" method="post" class="form-horizontal" id="comment_form" role="form">{% csrf_token %}
+                <input type="hidden" name="pk" value="{{ article.id }}">
+                <div class="form-group">
+                    <label for="id_commentator" class="col-md-2 control-label text-right">称呼</label>
+                    <div class="col-sm-10">
+                        {{ comment_form.commentator }}
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="id_body text-left col-md-2 control-label">评论内容</label>
+                    <div class="col-sm-10">
+                        {{ comment_form.body }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <p><input type='submit' value="发布" class="btn btn-primary-xs" data-action="{% url 'article:comment' %}"></p>
+                    </div>
+
+                </div>
+            </form>
+
+            <form action=""></form>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'public/layer/layer.js' %}"></script>
+    <script src="{% static 'js/article.js' %}"></script>
+{% endblock %}
+
+
+
+

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import redis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -71,9 +72,25 @@ TEMPLATES = [
     },
 ]
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'redis_cache.cache.RedisCache',
+#         'LOCATION': '127.0.0.1:6379',
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+#         },
+#     },
+# }
+# REDIS_TIMEOUT = 7 * 24 * 60 * 60
+# CUBES_REDIS_TIMEOUT = 60 * 60
+# NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
+
+REDIS_DB = 0
+REDIS_PORT = 6379
+REDIS_HOST = 'localhost'
+
+
 WSGI_APPLICATION = 'laoqi.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -149,10 +166,5 @@ EMAIL_HOST_PASSWORD = "WANundertheradar123"
 EMAIL_PORT = 25
 EMAIL_SUBJECT_PREFIX = SITE_NAME + '-'
 EMAIL_USE_SSL = False
-EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# redis
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
-REDIS_DB = 0

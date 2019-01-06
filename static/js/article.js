@@ -139,6 +139,42 @@ function article_post(obj) {
     });
 }
 
+function review(pk, feedback, url) {
+    $.post(url, {'pk': pk, 'action': feedback}, function(res){
+       console.log(res);
+       $('.thumb-up-count').each(function(){
+           $(this).text(res.count);
+       });
+       if (res.code === 200) {
+           layer.msg(res.msg, {icon: 6},1000);
+       } else {
+           layer.msg(res.msg, {icon: 5},1000);
+       }
+
+    });
+}
+
+function submitComment(obj, url){
+    $.post(url, $(obj).serializeArray(), function(res){
+        console.log(res);
+        if (res.code === 200) {
+            $('.no-comment').remove();
+            layer.msg(res.msg, {icon: 6})
+
+            let text = `
+                <div>
+                    <p><strong>` + res.data.name +`</strong></p>
+                    <p style="margin-left:40px">`+ res.data.body +`</p>
+                </div>
+            `;
+            $(obj)[0].reset();
+            $('#comments').append(text)
+        } else {
+            layer.msg(res.msg, {icon: 5}, 1000)
+        }
+    });
+}
+
 
 $('#article-post-form').on('submit', function () {
     event.preventDefault();
@@ -163,3 +199,29 @@ $('.edit-column').on('click', function () {
 $('.del-column').on('click', function () {
     del_col(this);
 });
+
+$('.thumb-up').on('click', function(){
+    let url = $(this).parent().data('url')
+    let pk = $(this).parent().data('id')
+    if($(this).hasClass('thumb-up')){
+        review( pk, 'like', url);
+    } else {
+        review( pk, 'unlike', url);
+    }
+});
+
+$('.thumb-down').on('click', function(){
+    let url = $(this).parent().data('url')
+    let pk = $(this).parent().data('id')
+    if($(this).hasClass('thumb-up')){
+        review( pk, 'like', url);
+    } else {
+        review( pk, 'unlike', url);
+    }
+});
+
+$('#comment_form').on('submit', function(){
+    event.preventDefault();
+    let url = $(this).find('.btn').data('action');
+    submitComment(this, url);
+})
