@@ -40,9 +40,7 @@
                 </div>
                 <div class="panel-body ">
                     <div id="markdown-doc">
-                        <textarea style="display:none;" id="markdown-content">
-                            {{ article.body }}
-                        </textarea>
+                        <textarea style="display:none;" >{{ article.body }}</textarea>
                     </div>
                 </div>
                 <div class="panel-footer ">
@@ -120,8 +118,6 @@
     <script>
         $(function () {
             editormd.markdownToHTML("markdown-doc", {
-                markdown: $('#markdown-content').text(),
-                mode: "markdown",
                 htmlDecode: "style,script,iframe",  // you can filter tags decode
                 emoji: true,
                 taskList: true,
