@@ -4,12 +4,322 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
- <div class="text-center">
-    <h1>Welcome</h1>
-    <h3>Life is short, you need python</h3>
-    <h2>Django makes it easier to build better web apps more quickly and with less code.</h2>
-     <img src="{% static 'img/logo.png' %}" alt="kongfu panda">
- </div>
+    <div class="container">
+        <!-- start of main banner bar -->
+{#        <div class="panel panel-default">#}
+{#            <div class="panel-body text-center">#}
+{#                <span id="site-logo" class="fa fa-gift fa-5x" aria-hidden="true"></span>#}
+{#                <h4 style="color:red;">预告：《积目技术这两年》系列文章即将上线，敬请关注...</h4>#}
+{#            </div>#}
+{#        </div>#}
+        <!-- end of main banner bar -->
+        <!-- start of main category -->
+{#        <div class="row">#}
+{#            <div class="col-md-3 col-sm-3">#}
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-body text-center">#}
+{#                        <a href="https://t.ti-node.com/node/134-1" class="font-larger color-red">#}
+{#                            <span class="fa fa-comments fa-2x" aria-hidden="true"></span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div class="panel-footer">#}
+{#                        <a href="https://t.ti-node.com/node/134-1">SOCKET编程</a>#}
+{#                        <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-3 col-sm-3">#}
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-body text-center">#}
+{#                        <a href="https://t.ti-node.com/node/127-1" class="font-larger color-yellow">#}
+{#                            <span class="fa fa-book fa-2x"></span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div class="panel-footer">#}
+{#                        <a href="https://t.ti-node.com/node/127-1">数据结构与算法</a>#}
+{#                        <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-3 col-sm-3">#}
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-body text-center">#}
+{#                        <a href="https://t.ti-node.com/node/138-1" class="font-larger color-blue">#}
+{#                            <span class="fa fa-handshake-o fa-2x"></span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div class="panel-footer">#}
+{#                        <a href="https://t.ti-node.com/node/138-1">扯淡吹水</a>#}
+{#                        <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-3 col-sm-3">#}
+{#                <div class="panel panel-default">#}
+{#                    <div class="panel-body text-center">#}
+{#                        <a href="https://t.ti-node.com/question" class="font-larger color-green">#}
+{#                            <span class="fa fa-question-circle fa-2x"></span>#}
+{#                        </a>#}
+{#                    </div>#}
+{#                    <div class="panel-footer">#}
+{#                        <a href="https://t.ti-node.com/question">每日一题</a>#}
+{#                        <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <!-- end of main category -->
+        <!-- start of main posts -->
+        <div class="panel panel-default">
+            <div class="panel-heading">最新帖子</div>
+            <div class="panel-body ">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/default.png" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6497394198361145345">安全篇之永强继续教你加解密：对称篇（三）</a>
+                                    </h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">赵永强</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2019-02-02 17:24:52</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">1</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/default.png" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6497352274560417793">安全篇之永强再次教你加解密：对称篇（二）</a>
+                                    </h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">赵永强</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2019-02-02 14:38:17</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/default.png" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6497068236977209344">安全篇之永强手把手教你加解密：对称篇（一）</a>
+                                    </h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">赵永强</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2019-02-01 19:49:37</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">4</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/3727374856224769QJAuA1" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6496002530831499264">《GM技术这两年》之沙雕篇（四）</a>
+                                    </h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">elarity</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2019-01-29 21:14:53</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/6449600437610872833iwpeU3" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6463411955305545728">像素终结篇
+                                        : 融资和搬家与副总以及财务</a></h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">老李小号</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2018-10-31 22:51:34</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/6449600437610872833iwpeU3" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a
+                                            href="https://t.ti-node.com/thread/6463411955271991297">像素人物杂谈</a></h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">老李小号</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2018-10-31 22:51:34</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/6449600437610872833iwpeU3" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6463411955242631168">像素篇 :
+                                        本来想起个标题叫做&lt;搅局的&gt;后来想了想还是叫&lt;搅屎棍&gt;吧</a></h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">老李小号</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2018-10-31 22:51:34</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row cell">
+                            <div class="cell-group-justified">
+                                <div class="hidden-xs cell-group cell-group-avatar">
+                                    <img src="./home_files/6449600437610872833iwpeU3" alt="" class="img-circle avatar">
+                                </div>
+                                <div class="cell-group cell-group-middle">
+                                    <h4 class="nowrap"><a href="https://t.ti-node.com/thread/6463411955192299521">像素篇 :
+                                        张大彪和草台班子</a></h4>
+                                    <p>
+                                        <span><a href="https://t.ti-node.com/#">老李小号</a></span>
+                                        <span>•</span>
+                                        <span><!--<a href="#">test1</a>--> 于 2018-10-31 22:51:34</span>
+                                    </p>
+                                </div>
+                                <div class="cell-group cell-group-count">
+                                    <a class="btn btn-count" href="https://t.ti-node.com/#">0</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer"><a href="https://t.ti-node.com/thread/index">More...</a></div>
+        </div>
+        <!-- end of main posts -->
+        <!-- start of main node -->
+        <div class="panel panel-default">
+            <div class="panel-heading">讨论节点分类导航</div>
+            <div class="panel-body">
+                <div class="cell-padding-bottom">
+                    <div class="cell-group-justified">
+                        <div class="cell-group cell-group-node">Back-End</div>
+                        <div class="cell-group cell-group-middle">
+                            <span><a href="https://t.ti-node.com/node/100-1">架构</a></span>
+                            <span><a href="https://t.ti-node.com/node/101-1">运维</a></span>
+                            <span><a href="https://t.ti-node.com/node/102-1">MySQL</a></span>
+                            <span><a href="https://t.ti-node.com/node/120-1">Redis</a></span>
+                            <span><a href="https://t.ti-node.com/node/121-1">ElasticSearch</a></span>
+                            <span><a href="https://t.ti-node.com/node/122-1">MongoDB</a></span>
+                            <span><a href="https://t.ti-node.com/node/123-1">微服务</a></span>
+                            <span><a href="https://t.ti-node.com/node/124-1">分布式</a></span>
+                            <span><a href="https://t.ti-node.com/node/125-1">网关</a></span>
+                            <span><a href="https://t.ti-node.com/node/126-1">Linux</a></span>
+                            <span><a href="https://t.ti-node.com/node/127-1">算法</a></span>
+                            <span><a href="https://t.ti-node.com/node/128-1">Nginx</a></span>
+                            <span><a href="https://t.ti-node.com/node/131-1">GEO服务</a></span>
+                            <span><a href="https://t.ti-node.com/node/134-1">Socket编程</a></span>
+                            <span><a href="https://t.ti-node.com/node/135-1">人工智能</a></span>
+                            <span><a href="https://t.ti-node.com/node/136-1">Golang</a></span>
+                            <span><a href="https://t.ti-node.com/node/139-1">C语言</a></span>
+                            <span><a href="https://t.ti-node.com/node/140-1">安全</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-padding-bottom">
+                    <div class="cell-group-justified">
+                        <div class="cell-group cell-group-node">Front-End</div>
+                        <div class="cell-group cell-group-middle">
+                            <span><a href="https://t.ti-node.com/node/103-1">VUE</a></span>
+                            <span><a href="https://t.ti-node.com/node/104-1">React</a></span>
+                            <span><a href="https://t.ti-node.com/node/105-1">jQuery</a></span>
+                            <span><a href="https://t.ti-node.com/node/117-1">HTML/CSS</a></span>
+                            <span><a href="https://t.ti-node.com/node/118-1">Javascript</a></span>
+                            <span><a href="https://t.ti-node.com/node/119-1">ES6</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-padding-bottom">
+                    <div class="cell-group-justified">
+                        <div class="cell-group cell-group-node">Mobile</div>
+                        <div class="cell-group cell-group-middle">
+                            <span><a href="https://t.ti-node.com/node/106-1">iOS</a></span>
+                            <span><a href="https://t.ti-node.com/node/107-1">Android</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-padding-bottom">
+                    <div class="cell-group-justified">
+                        <div class="cell-group cell-group-node">PHP</div>
+                        <div class="cell-group cell-group-middle">
+                            <span><a href="https://t.ti-node.com/node/108-1">设计模式</a></span>
+                            <span><a href="https://t.ti-node.com/node/109-1">Yaf</a></span>
+                            <span><a href="https://t.ti-node.com/node/110-1">SWOOLE</a></span>
+                            <span><a href="https://t.ti-node.com/node/111-1">Workerman</a></span>
+                            <span><a href="https://t.ti-node.com/node/116-1">Swoft</a></span>
+                            <span><a href="https://t.ti-node.com/node/129-1">Codeigniter</a></span>
+                            <span><a href="https://t.ti-node.com/node/130-1">FPM</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-padding-bottom">
+                    <div class="cell-group-justified">
+                        <div class="cell-group cell-group-node">大杂烩</div>
+                        <div class="cell-group cell-group-middle">
+                            <span><a href="https://t.ti-node.com/node/112-1">活动</a></span>
+                            <span><a href="https://t.ti-node.com/node/113-1">招聘</a></span>
+                            <span><a href="https://t.ti-node.com/node/114-1">羊毛</a></span>
+                            <span><a href="https://t.ti-node.com/node/115-1">扯淡</a></span>
+                            <span><a href="https://t.ti-node.com/node/132-1">读书</a></span>
+                            <span><a href="https://t.ti-node.com/node/133-1">翻译</a></span>
+                            <span><a href="https://t.ti-node.com/node/137-1">问答</a></span>
+                            <span><a href="https://t.ti-node.com/node/138-1">工作与生活</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of main node -->
+    </div>
 
 
 {% endblock %}

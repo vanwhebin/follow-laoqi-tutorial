@@ -1,0 +1,165 @@
+{% extends 'blog/../public/base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block title %} {{ article.title }} {% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'editor/css/editormd.preview.min.css' %}"/>
+    <div class="container">
+        <!-- start of main category -->
+        <div class="col-md-9">
+            <!-- start of main posts -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row cell">
+                        <div class="cell-group-justified">
+                            <div class="cell-group cell-group-middle">
+                                <h4>{{ article.title }}</h4>
+                                <p>
+                                    <span><i class="fa fa-folder-o"></i> {{ article.column.column }}</span>
+                                    <span>•</span>
+                                    <!--<span><a href="https://t.ti-node.com/node/136-1"></a></span>
+                                    <span>•</span>
+                                    <span>最后回复于 <a href="#">test1</a></span>-->
+                                    <span>
+                                      <a href="{% url  'blog:blog_detail' slug=article.slug %}">
+                                       {{ article.author.username }}</a>
+                                    </span>
+                                    <span>•</span>
+                                    <span><i class="fa fa-calendar"></i> {{ publish|date:"Y-m-d" }}</span>
+
+                                </p>
+                            </div>
+                            <div class="hidden-xs cell-group cell-group-avatar">
+                                <a href="javascript:void(0)">
+                                    <img src="{% static 'img/luxun.jpeg' %}" alt="" class="img-circle avatar">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body ">
+                    <div id="markdown-doc">
+                        <textarea style="display:none;" id="markdown-content">
+                            {{ article.body }}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="panel-footer ">
+                    {% for tag in tags %}
+                        &nbsp;<a href="javascript:void(0)"><span class="label label-info">{{ tag }}</span></a>&nbsp;
+                    {% endfor %}
+                    <br>
+                    <a href="javascript:void(0)" class="col-sm-offset-5"><span
+                            class="fa fa-thumbs-o-up "></span></a>
+                    <span> {{ article.likes }}个赞</span>
+                </div>
+            </div>
+
+            <!-- 评论列表 -->
+
+            <!-- end of main comments -->
+            <div class="panel panel-default">
+                <div class="panel-header"
+                     style="color: #777; border-bottom: 1px solid #eee; background: #fafafa; padding: 6px 15px;">评论
+                </div>
+                <div class="panel-body ">
+                    <!--<div class="cell row text-center">
+                        需要 <a href="https://t.ti-node.com/user/login" class="btn btn-info login">登录</a> 后方可回复,
+                        如果你还没有账号请点击这里 <a href="https://t.ti-node.com/user/register" class="btn btn-danger sign-up">注册</a>
+                    </div>-->
+                    {% include 'blog/comment.html' %}
+                </div>
+            </div>
+            <!-- start of topic  -->
+            <!--
+            <div class="panel panel-default">
+                <div class="panel-heading">相关话题</div>
+                <div class="panel-body ">
+                    <div class="cell row">
+                        <a href="">相关帖子测试</a>
+                    </div>
+                    <div class="cell row">
+                        <a href="">相关帖子测试</a>
+                    </div>
+                    <div class="cell row">
+                        <a href="">相关帖子测试</a>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+
+        <div class="col-md-3">
+            <!-- Statistics -->
+            {% hot_blogs %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span>相关文章</span>
+                </div>
+                <div class="panel-body">
+                    {% for blog in related %}
+                    <div class="cell row">
+                        <a target="_blank" href="{% url 'blog:blog_detail' slug=blog.slug %}">{{ blog.title }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{% static 'editor/lib/marked.min.js' %}"></script>
+    <script src="{% static 'editor/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'editor/lib/raphael.min.js' %}"></script>
+    <script src="{% static 'editor/lib/underscore.min.js' %}"></script>
+    <script src="{% static 'editor/lib/sequence-diagram.min.js' %}"></script>
+    <script src="{% static 'editor/lib/flowchart.min.js' %}"></script>
+    <script src="{% static 'editor/lib/jquery.flowchart.min.js' %}"></script>
+    <script src="{% static 'editor/js/editormd.min.js' %}"></script>
+    <script>
+        $(function () {
+            editormd.markdownToHTML("markdown-doc", {
+                markdown: $('#markdown-content').text(),
+                mode: "markdown",
+                htmlDecode: "style,script,iframe",  // you can filter tags decode
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true,  // 默认不解析
+            });
+
+            $('button.comment').on('click', function () {
+                event.preventDefault();
+                let commentator = $('#input_name').val().trim();
+                let email = $('#input_email').val().trim();
+                let body = $('#input_text').val().trim();
+                if (!commentator || !body) {
+                    $('#send').attr('disabled', true);
+                    return false;
+                } else {
+                    let data = {};
+                    data.commentator = commentator;
+                    data.email = email;
+                    data.body = body;
+                    $.post('{% url 'blog:post_comment' slug=article.slug %}', data, function (res) {
+                        if (res.code === 200) {
+                            $('.bs-modal-sm').modal('show');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+
+                            $('.bs-modal-sm .modal-body>p').text('评论出错');
+                            $('.bs-modal-sm').modal('show')
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2000)
+                        }
+                    })
+                }
+            });
+        })
+    </script>
+{% endblock %}

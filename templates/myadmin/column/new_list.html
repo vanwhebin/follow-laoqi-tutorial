@@ -1,0 +1,322 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>博客栏目列表</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="create_column"><i class="fa fa-pencil"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th class="column-title">ID</th>
+                                <th class="column-title">栏目</th>
+                                <th class="column-title">时间</th>
+                                <th class="column-title">博客数量</th>
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for column in columns %}
+                            <tr class="{% cycle 'odd' 'even' %} pointer" data-url="{% url 'myadmin:update_column' pk=column.pk %}" id="{{ column.pk }}">
+                                <td class=" ">{{ column.pk }}</td>
+                                <td class="column-name">{{ column.column }}</td>
+                                <td class=" ">{{ column.create_time |date:"Y-m-d H:i:s" }}</td>
+                                <td class=" ">{{ column.category.count }}<i class="success fa fa-long-arrow-up"></i></td>
+                                <td class=" last"><a href="javascript:void(0)" class="update_column">编辑</a>
+                                <td class=" last"><a href="javascript:void(0)" class="delete_column" >删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% resetcycle %}
+                            </tbody>
+                        </table>
+                    {% include 'public/pagination.html' %}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /page content -->
+    <!--　delete modal-->
+     <div class="modal fade bs-modal-sm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <h4>确认删除</h4>
+              <p>删除栏目后相应的文章也会删除</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary confirm_delete" data-url="">确定</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+    <!-- update modal-->
+     <div class="modal fade bs-modal-sm-update" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <h4>编辑栏目名称</h4>
+                <div><label for="rename">栏目:</label><input type="text" name="rename" value="" id="rename"></div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+            <label for="update-parent-column">上级分类:</label>
+                <select class="select2_single form-control blog-category-update" tabindex="-1" id="update-parent-column">
+                    <option value="">请选择分类</option>
+                    {% for col in columns %}
+                        <option value="{{ col.id }}" {% if col.id == blog.column.id %} selected {% endif %}>{{ col.column }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-gray confirm_update" data-url="">确定</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+    <!-- create modal-->
+     <div class="modal fade bs-modal-sm-create" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <h4>栏目名称</h4>
+                <div><label for="newname">栏目:</label><input type="text" name="newname" value="" id="newname"></div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+            <label for="create-parent-column">上级分类:</label>
+                <select class="select2_single form-control blog-category-create" tabindex="-1" id="create-parent-column">
+                    <option value="">请选择分类</option>
+                    {% for col in columns %}
+                        <option value="{{ col.id }}" >{{ col.column }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-gray confirm_create" data-url="">确定</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function create (url, data) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(res){
+                $('.bs-modal-sm-create').modal('hide');
+                $('.blog-category-create').val('');
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '已创建',
+                        text: '创建成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                    setTimeout(function(){ window.location.reload();}, 2000)
+                } else {
+                    new PNotify({
+                        title: '出错',
+                        text: '某个环节出错',
+                        type: 'error',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            }
+        })
+    }
+
+
+    function update (url, data) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(res){
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '已更新',
+                        text: '更新成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                    $('#' + res.pk).find('td:nth-child(2)').text($('#rename').val().trim());
+                    $('.bs-modal-sm-update').modal('hide');
+                } else {
+                    new PNotify({
+                        title: '出错',
+                        text: '某个环节出错',
+                        type: 'error',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            }
+        })
+    }
+
+    function del(url){
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            dataType: 'JSON',
+            success: function(res){
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '已删除',
+                        text: '删除成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                     $('#' + res.pk).remove();
+                     $('.bs-modal-sm-delete').modal('hide');
+                } else {
+                    new PNotify({
+                        title: '出错',
+                        text: '某个环节出错',
+                        type: 'error',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            }
+        })
+    }
+
+    $('.create_column').on('click', function() {
+        $('.bs-modal-sm-create').modal('show');
+    });
+
+    $('.update_column').on('click', function() {
+        let url = $(this).parents('.pointer').data('url');
+        $('#rename').val($(this).parents('.pointer').find('.column-name').text());
+        $('.bs-modal-sm-update').modal('show');
+        $('.bs-modal-sm-update .confirm_update').data('url', url)
+    });
+
+    $('.delete_column').on('click', function(){
+        let url = $(this).parents('.pointer').data('url');
+        $('.bs-modal-sm-delete').modal('show');
+        $('.bs-modal-sm-delete .confirm_delete').data('url', url)
+    });
+
+    $('.confirm_delete').on('click', function () {
+        del($(this).data('url'))
+    });
+
+
+    $('.confirm_update').on('click', function () {
+        let column = $('#rename').val().trim();
+        let parent_column = $('.blog-category-update').val();
+        parent_column = parent_column ? parent_column : null;
+
+        /*let already_exists = false;
+         $('.column-name').each(function(index, item){
+            if ($(item).text() === column) {
+                already_exists = true;
+            }
+        })*/
+        if (column === '') {
+            new PNotify({
+                title: '提示',
+                text: '栏目不能为空或者重名',
+                type: 'info',
+                hide: true,
+                delay: 800,
+                styling: 'bootstrap3'
+            });
+            return false;
+        }
+        update($(this).data('url'), {'column': column, 'parent': parent_column})
+    });
+
+    $('.confirm_create').on('click', function () {
+        let column = $('#newname').val().trim();
+        let parent_column = $('.blog-category-create').val();
+        parent_column = parent_column ? parent_column : null;
+        let already_exists = false;
+         $('.column-name').each(function(index, item){
+            if ($(item).text() === column) {
+                already_exists = true;
+            }
+        })
+        if (column === '' || already_exists) {
+            new PNotify({
+                title: '提示',
+                text: '栏目不能为空或者重名',
+                type: 'info',
+                hide: true,
+                delay: 800,
+                styling: 'bootstrap3'
+            });
+            return false;
+        }
+        create("{% url 'myadmin:create_column' %}", {'column': column, 'parent': parent_column})
+    })
+</script>
+{% endblock %}

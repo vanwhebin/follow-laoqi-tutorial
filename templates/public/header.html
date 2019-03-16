@@ -1,15 +1,67 @@
 {% load static %}
-<div class="container">
-    <nav class="navbar navbar-default" role="navigation">
+<style>
+#common-tip {
+z-index:9999;display:none; height:40px; line-height:40px; width:100%; text-align:center; color:white; background:#eb5424; position:fixed; top:0px;
+}
+#page-nav-bar .active a { background-color:#2275da; border-color:#2275da; }
+#friend-link-logo {}
+#friend-link-logo img { width:120px; display:block; margin:0 auto; }
+.helper { width:100%;height:100px; }
+
+.footer { color:#666; }
+.footer  a{ color:#666; }
+.footer .row .first { font-size:16px; padding-top:25px; padding-bottom:25px; }
+.footer .row .second{  font-size:16px; padding-bottom:25px; }
+.footer .row .third{  padding-bottom:25px; }
+.footer span { color:#666; padding-right:30px; }
+.footer span a { color:#666; }
+.footer span img { height:20px; }
+
+ #publish-new-thread { width:100%; background:#2275da; }
+</style>
+<!-- start of nav -->
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a href="/" class="navbar-brand"><img src="{% static 'img/logo.png' %}" alt="" style="height: 30px"></a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="{% static 'img/logo.png' %}" alt="" style="height: 30px;margin-top:-5px"></a>
         </div>
-        <div>
-            <ul class="nav navbar-nav" role="navigation">
-                <li><a href="{% url 'blog:blog_titles' %}">博客</a></li>
-                <li><a href="{% url 'article:posts' %}">文章</a></li>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'blog:blog_list' %}">博客列表<span class="sr-only">(current)</span></a></li>
+                <!--<li><a href="{% url 'article:posts' %}">每日一帖</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    教程
+                    <span class="caret"></span>
+                  </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://t.ti-node.com/tutorial/index">教程首页说明</a></li>
+                        <li><a href="https://t.ti-node.com/tutorial/1">PHP高性能API服务器设计与实践</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    读书
+                    <span class="caret"></span>
+                  </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://t.ti-node.com/tutorial/index">技术</a></li>
+                        <li><a href="https://t.ti-node.com/tutorial/index">语言</a></li>
+                        <li><a href="https://t.ti-node.com/tutorial/1">技术之外</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://t.ti-node.com/about">联系我</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
+            <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <a class="btn btn-default dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" style="margin-top:10%">
                         {{ user.username }} <span class="caret"></span>
@@ -20,11 +72,21 @@
                         <li><a href="{% url 'account:user_logout' %}">Logout</a></li>
                     </ul>
                 {% else %}
-                    <li><a href="{% url 'account:user_login' %}">Login</a></li>
-                    <li><a href="{% url 'account:user_register' %}">Sign up</a></li>
+                    <li><a href="{% url 'account:user_login' %}">登录</a></li>
+                    <li><a href="{% url 'account:user_register' %}">注册</a></li>
                 {% endif %}
-            </ul>
+            </ul>-->
+
+{#            <form class="navbar-form navbar-right" role="search">#}
+{#                <div class="form-group">#}
+{#                    <input type="text" class="form-control" placeholder="Search">#}
+{#                </div>#}
+{#                <button type="submit" class="btn btn-default">#}
+{#                    <span class="glyphicon glyphicon-search"></span>#}
+{#                </button>#}
+{#            </form>#}
 
         </div>
-    </nav>
-</div>
+    </div>
+</nav>
+<!-- end of nav -->

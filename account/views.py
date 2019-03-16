@@ -19,7 +19,7 @@ def user_login(request):
             user = authenticate(username=cd['username'], password=cd['password'])
             if user:
                 login(request, user)
-                return JsonResponse({"code": 200, "msg": "Ok", 'url': reverse('blog:blog_titles')})
+                return JsonResponse({"code": 200, "msg": "Ok", 'url': reverse('blog:blog_list')})
             else:
                 return JsonResponse({"code": 400, "msg": "Either username or password is not right."})
         else:

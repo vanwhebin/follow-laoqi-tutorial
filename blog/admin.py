@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import BlogArticles
+from blog.models import Blog
 
 
 class BlogArticlesAdmin(admin.ModelAdmin):
@@ -11,4 +11,4 @@ class BlogArticlesAdmin(admin.ModelAdmin):
     ordering = ['publish', 'author']
 
 
-admin.site.register(BlogArticles)
+admin.site.register(Blog)

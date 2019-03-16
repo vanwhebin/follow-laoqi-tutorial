@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 app_name = "blog"
 urlpatterns = [
-    re_path('title/(?P<article_id>[\\d]+)', views.blog_article, name='blog_detail'),
-    path('', views.blog_title, name='blog_titles'),
+    path('<str:slug>', views.blog_article, name='blog_detail'),
+    path('comment/<str:slug>', views.comment_article, name='post_comment'),
+    path('', views.blog_list, name='blog_list'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

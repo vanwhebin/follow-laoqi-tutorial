@@ -1,0 +1,69 @@
+{% load static %}
+<!-- jQuery -->
+<script src="{% static 'admin/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'admin/bootstrap.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'admin/fastclick.js' %}"></script>
+<!-- NProgress -->
+<script src="{% static 'admin/nprogress.js' %}"></script>
+<!-- Chart.js -->
+<script src="{% static 'admin/Chart.min.js' %}"></script>
+<!-- gauge.js -->
+<script src="{% static 'admin/gauge.min.js' %}"></script>
+<!-- bootstrap-progressbar -->
+<script src="{% static 'admin/bootstrap-progressbar.min.js' %}"></script>
+<!-- iCheck -->
+<script src="{% static 'admin/icheck.min.js' %}"></script>
+<!-- Skycons -->
+<script src="{% static 'admin/skycons.js' %}"></script>
+<!-- Flot -->
+<script src="{% static 'admin/jquery.flot.js' %}"></script>
+<script src="{% static 'admin/jquery.flot.pie.js' %}"></script>
+<script src="{% static 'admin/jquery.flot.time.js' %}"></script>
+<script src="{% static 'admin/jquery.flot.stack.js' %}"></script>
+<script src="{% static 'admin/jquery.flot.resize.js' %}"></script>
+<!-- DateJS -->
+<script src="{% static 'admin/date.js' %}"></script>
+
+<!-- bootstrap-daterangepicker -->
+<script src="{% static 'admin/moment.min.js' %}"></script>
+<script src="{% static 'admin/daterangepicker.js' %}"></script>
+
+<!-- PNotify -->
+<script src="{% static 'admin/pnotify/dist/pnotify.js' %}"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="{% static 'admin/custom.js' %}"></script>
+<script>
+    // ajaxSetup.js
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+// 2.定义不需要csrftoken的请求方式
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+// 3.将csrftoken写入当前请求头
+$.ajaxSetup({
+  beforeSend: function (xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    }
+  }
+});
+</script>

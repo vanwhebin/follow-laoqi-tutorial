@@ -1,0 +1,238 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>博客栏目列表</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th class="column-title">ID</th>
+                                <th class="column-title">博客</th>
+                                <th class="column-title">评论人</th>
+                                <th class="column-title">邮箱</th>
+                                <th class="column-title">评论内容</th>
+                                <th class="column-title">已回复</th>
+                                <th class="column-title">时间</th>
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for comment in comments %}
+                            <tr class="{% cycle 'odd' 'even' %} pointer" data-url="{% url 'myadmin:reply_comment' pk=comment.pk %}" id="{{ comment.pk }}">
+                                <td class=" ">{{ comment.pk }}</td>
+                                <td class="">{{ comment.blog }}</td>
+                                <td class=" ">{{ comment.commentator }}</td>
+                                <td class=" ">{{ comment.email }}</td>
+                                <td class=" ">{{ comment.body| truncatewords:15 }}</td>
+                                <td class=" ">{{ comment.replied }}</td>
+                                <td class=" ">{{ comment.create_time |date:"Y-m-d H:i:s" }}</td>
+                                <td style="display:none" class="comment_body">{{ comment.body }}</td>
+                                <td class=" last"><a href="javascript:void(0)" class="reply_comment">查看</a>
+                                <td class=" last"><a href="javascript:void(0)" class="delete_comment" >删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% resetcycle %}
+                            </tbody>
+                        </table>
+                    {% include 'public/pagination.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /page content -->
+    <!--　delete modal-->
+     <div class="modal fade bs-modal-sm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <p>是否确认删除用户评论？</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary confirm_delete" data-url="">确定</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+        <!--　view modal-->
+     <div class="modal fade bs-modal-sm-view" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <h4>评论内容</h4>
+              <p id="user_comment"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary confirm-reply" data-url="">回复</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+    <!-- update modal-->
+     <div class="modal fade bs-modal-sm-reply" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">回复</h4>
+            </div>
+            <div class="modal-body">
+              <h4>回复</h4>
+                <div><textarea cols="30" rows="10" id="input_reply" placeholder="写入内容"></textarea></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-gray confirm_update" data-url="">确定</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!--modal-->
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function reply (url, data) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(res){
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '已回复',
+                        text: '回复成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                    $('#' + res.pk).find('td:nth-child(7)').text('True');
+                    $('.bs-modal-sm-reply').modal('hide');
+                    setTimeout(function(){ window.location.reload();},2000)
+                } else {
+                    new PNotify({
+                        title: '出错',
+                        text: '某个环节出错',
+                        type: 'error',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            }
+        })
+    }
+
+    function del(url){
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            dataType: 'JSON',
+            success: function(res){
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '已删除',
+                        text: '删除成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                     $('#' + res.pk).remove();
+                     $('.bs-modal-sm-delete').modal('hide');
+                } else {
+                    new PNotify({
+                        title: '出错',
+                        text: '某个环节出错',
+                        type: 'error',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            }
+        })
+    }
+
+    $('.reply_comment').on('click', function() {
+        let url = $(this).parents('.pointer').data('url');
+        $('#user_comment').text($(this).parents('.pointer').find('.comment_body').text());
+        $('.bs-modal-sm-view').modal('show');
+        $('.bs-modal-sm-reply .confirm_update').data('url', url)
+    });
+
+
+    $('.confirm-reply').on('click', function () {
+        $('.bs-modal-sm-view').modal('hide');
+        $('.bs-modal-sm-reply').modal('show');
+    });
+
+    $('.confirm_update').on('click', function(){
+        let body = $('#input_reply').val().trim();
+        if (body === '') {
+            new PNotify({
+                title: '提示',
+                text: '栏目不能为空或者重名',
+                type: 'info',
+                hide: true,
+                delay: 800,
+                styling: 'bootstrap3'
+            });
+            return false;
+        }
+        reply($(this).data('url'), {'body': body})
+    });
+
+    $('.delete_comment').on('click', function(){
+        let url = $(this).parents('.pointer').data('url');
+        $('.bs-modal-sm-delete').modal('show');
+        $('.bs-modal-sm-delete .confirm_delete').data('url', url)
+    });
+
+    $('.confirm_delete').on('click', function () {
+        del($(this).data('url'))
+    });
+</script>
+{% endblock %}

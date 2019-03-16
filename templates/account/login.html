@@ -1,52 +1,65 @@
 {% extends 'public/base.html' %}
 {% load static %}
-{% block title %} LOGIN {% endblock %}
+{% block title %} Login {% endblock %}
 
 {% block content %}
-    <div class="row text-center vertical-middle-sm">
-        <h1>Login</h1>
-        <p>Please input your username and password, or <a href="{% url 'account:user_register' %}">create a account</a></p>
-        <form action="" class="form-horizontal">{% csrf_token %}
+ <style>
+  .form-title { padding:6px 15px; background:#fafafa; border-bottom:1px solid #eee; color:#777; }
+  #login-form { background:white; padding:10px 15px; }
+  #login-form .form-control { border:1px solid #ced4da; }
+  #login-form #login-btn { background:#2275da; }
+</style>
+
+<div class="container" style="min-height:500px;">
+    <!-- start of sider bar -->
+    <div class="col-md-3"></div><!-- end col-md-3 -->
+    <!-- start of main category -->
+    <div class="col-md-6">
+        <div class="form-title">用户登录</div>
+        <form method="post" id="login-form">
+            {% csrf_token %}
             <div class="form-group">
-                <label for="{{ form.username.id_for_label }}" class="col-md-5 control-label" >
-                    <span class="glyphicon glyphicon-user">{{ form.username.label }}</span>
-                </label>
-                <div class="col-md-6 text-left">
-                   {{ form.username }}
-                </div>
+                <input type="text" name="username" class="form-control" id="email" placeholder="请输入账号"
+                       autocomplete="off"
+                       style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC'); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: pointer;">
             </div>
-
-
             <div class="form-group">
-                <label for="{{ form.password.id_for_label }}" class="col-md-5 control-label" >
-                    <span class="glyphicon glyphicon-lock">{{ form.password.label }}</span>
-                </label>
-                <div class="col-md-6 text-left">
-                   {{ form.password }}
-                </div>
+                <input type="password" name="password" class="form-control" id="password" placeholder="请输入你的密码"
+                       autocomplete="off"
+                       style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC'); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
             </div>
+            <button type="submit" class="btn btn-primary" id="login-btn">登录</button>
 
-
-            <input type="submit" value="Login" class="btn btn-primary btn-lg">
+            <a href="https://t.ti-node.com/user/register" class="btn btn-default">注册</a>
         </form>
     </div>
+    <!-- col-md-6 END -->
+
+    <!-- start of sider bar -->
+    <div class="col-md-3">
+    </div>
+    <!-- end of sider bar -->
+
+
+</div>
+
 {% endblock %}
 
 {% block javascript %}
-<script>
-$('form').on('submit', function(event){
-    event.preventDefault();
-    $.post(
-        '{% url 'account:user_login' %}',
-        $('form').serializeArray(),
-        function(res){
-            if (res.code == 200) {
-                window.location.href = res.url;
+    <script>
+        $('form').on('submit', function (event) {
+            event.preventDefault();
+            $.post(
+                '{% url 'account:user_login' %}',
+                $('form').serializeArray(),
+                function (res) {
+                    if (res.code == 200) {
+                        window.location.href = res.url;
 
-            } else if (res.code == 400) {
-                alert(res.msg)
-            }
-    })
-});
-</script>
+                    } else if (res.code == 400) {
+                        alert(res.msg)
+                    }
+                })
+        });
+    </script>
 {% endblock %}

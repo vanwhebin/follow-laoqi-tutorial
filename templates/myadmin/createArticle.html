@@ -1,0 +1,18 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+<form method="post" action="{% url 'myadmin:create_blog' %}" class="form-group form-horizontal">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <p><input type="submit" value="post" class="btn-primary form-control col-sm-3"></p>
+</form>
+</div>
+<!-- /page content -->
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load blog_tags %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span>最新文章</span>
+    </div>
+    <div class="panel-body">
+        {% for blog in latest_blogs %}
+        <div class="cell row"><a target="_blank" href="{% url 'blog:blog_detail' slug=blog.slug %}">{{ blog.title }}</a></div>
+        {% endfor %}
+    </div>
+</div>

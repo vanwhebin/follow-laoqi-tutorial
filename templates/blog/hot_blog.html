@@ -1,0 +1,13 @@
+{% load blog_tags %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span>浏览最多</span>
+    </div>
+    <div class="panel-body">
+        {% for hot in hots %}
+        <div class="cell row">
+            {{ hot.reads }}<span> • </span><a target="_blank" href="{% url 'blog:blog_detail' slug=hot.slug %}">{{ hot.title }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

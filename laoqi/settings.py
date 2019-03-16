@@ -26,7 +26,7 @@ SECRET_KEY = 'ncgb^_f&an3g8ebeqh8p@fujfa#cf(z2ry9wce2v24c@=^rrro'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'account.apps.AccountConfig',
     'article.apps.ArticleConfig',
+    'myadmin.apps.MyadminConfig'
 ]
 
 MIDDLEWARE = [
@@ -81,9 +82,23 @@ TEMPLATES = [
 #         },
 #     },
 # }
-# REDIS_TIMEOUT = 7 * 24 * 60 * 60
-# CUBES_REDIS_TIMEOUT = 60 * 60
-# NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+            # "PASSWORD": "密码",
+        }
+    }
+}
+
+
+REDIS_TIMEOUT = 7 * 24 * 60 * 60
+CUBES_REDIS_TIMEOUT = 60 * 60
+NEVER_REDIS_TIMEOUT = 365 * 24 * 60 * 60
 
 REDIS_DB = 0
 REDIS_PORT = 6379
@@ -99,7 +114,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'laoqi',
+        'NAME': 'blog',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
@@ -151,6 +166,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/editor")
 
 LOGIN_REDIRECT_URL = '/blog/'
 
@@ -167,4 +183,7 @@ EMAIL_PORT = 25
 EMAIL_SUBJECT_PREFIX = SITE_NAME + '-'
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+PAGE_SIZE = 10
+
 

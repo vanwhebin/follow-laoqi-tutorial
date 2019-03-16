@@ -1,0 +1,93 @@
+{% extends 'public/base.html' %}
+{% load blog_tags %}
+{% load static %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+    <!-- start of main container -->
+    <div class="container">
+        <!-- start of main category -->
+        <div class="col-md-9">
+            <!-- start of main posts -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-left">最新博文</div>
+                        <!--<div class="pull-right">
+                            <span>查看: </span>
+                            <span><a href="">默认</a></span>
+                            <span>/</span>
+                            <span><a href="">优质帖子</a></span>
+                            <span>/</span>
+                            <span><a href="">无人问津</a></span>
+                            <span>/</span>
+                            <span><a href="">最新创建</a></span>
+                        </div>-->
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body ">
+                    {% for blog in blogs %}
+                    <div class="row cell">
+                        <div class="cell-group-justified">
+                            <div class="hidden-xs cell-group cell-group-avatar">
+                                <a href="javascript:void(0)">
+                                    <img src="{% static 'img/luxun.jpeg' %}" alt="" class="img-circle avatar">
+                                </a>
+                            </div>
+                            <div class="cell-group cell-group-middle">
+                                <h4 class="nowrap"><a href="{% url 'blog:blog_detail' slug=blog.slug %}">{{ blog.title }}</a>
+                                </h4>
+                                <p>
+                                    <span><i class="fa fa-folder"></i> {{ blog.column }}</span>
+                                    <span>•</span>
+                                    <span><a href="javascript:void(0)">{{ blog.author.username }}</a></span>
+                                    <span>•</span>
+                                    <span><i class="fa fa-calendar"></i> {{ blog.publish|date:"Y-m-d" }}</span>
+                                    <span>•</span>
+                                    <span><i class="fa fa-eye"></i>{{ blog.reads }}</span>
+                                    <span>•</span>
+                                    <span><i class="fa fa-thumbs-o-up"></i>{{ blog.likes }}</span>
+                                </p>
+                            </div>
+                            <div class="cell-group cell-group-count">
+                                <!--<a class="btn btn-count" href="javascript:void(0)">{{ blog.likes }}</a>
+                                <a class="btn btn-count" href="javascript:void(0)">{{ blog.reads }}</a>-->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="panel-footer">
+                    {% include 'public/pagination.html' %}
+                    <nav aria-label="...">
+{#                        <ul class="pager" id="page-nav-bar">#}
+{#                            <li><a href="https://t.ti-node.com/thread/index?type=&amp;page=1">上一页</a></li>#}
+{#                            <li><a href="https://t.ti-node.com/thread/index?type=&amp;page=2">下一页</a></li>#}
+{#                        </ul>#}
+                    </nav>
+                </div>
+            </div>
+            <!-- end of main city -->
+        </div>
+        <!-- end of main category -->
+        <!-- start of sider bar -->
+        <div class="col-md-3">
+
+            <!-- most views -->
+            {% hot_blogs %}
+{#            {% include 'blog/hot_blog.html' %}#}
+            <!-- most commented -->
+            {% latest_blogs %}
+{#            {% include 'blog/most_comments.html' %}#}
+            <!-- friends -->
+            {% include 'blog/friends_link.html' %}
+            <!-- Statistics -->
+            {% include 'blog/statistics.html' %}
+
+        </div>
+        <!-- end of sider bar -->
+    </div>
+    <!-- end of main container -->
+
+
+{% endblock %}

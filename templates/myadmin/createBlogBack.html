@@ -1,0 +1,62 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!-- page content -->
+{#<link rel="stylesheet" href="{% static 'editor/css/style.css' %}"/>#}
+<link rel="stylesheet" href="{% static 'editor/css/editormd.css' %}"/>
+<div class="right_col" role="main">
+    <div id="layout">
+        <header>
+            {% csrf_token %}
+            <input  type="button" value="发布" class="btn-success submit" style="margin-bottom:5px">
+            <input  type="button" value="草稿" class="btn-primary submit draft">
+            <input type="text" placeholder="博客标题" class="form-control title" style="margin-bottom:5px;" value="{{ blog }}">
+            <input type="text" placeholder="博客标签" class="form-control blog-tag" value="{{ tag }}">
+        </header>
+        <div id="test-editormd">
+            <textarea></textarea>
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'editor/js/editormd.min.js' %}"></script>
+<script type="text/javascript">
+    let testEditor;
+    let url = "{% url 'myadmin:create_blog' %}";
+    let token = $('input[name="csrfmiddlewaretoken"]').val();
+    let md = $('')
+
+    $(function () {
+        testEditor = editormd("test-editormd", {
+            width: "90%",
+            height: 640,
+            syncScrolling: "single",
+            path: "{% static 'editor/lib/' %}"
+        });
+        testEditor.setMarkdown("{{ blog.body }}")
+    });
+
+    $('.submit').on('click', function(){
+        let markdown = testEditor.getMarkdown();
+        console.log(markdown)
+        let title = $('.title').val().trim();
+        let tag = $('.blog-tag').val().trim().split(' ');
+        console.log(tag)
+        tag = tag.filter(function(val){ if (val !== '') { return val;}});
+        console.log(title);
+        console.log(tag);
+
+        $.post(url, {title: title, tag: tag, content: markdown, csrfmiddlewaretoken: token}, function(res){
+            console.log(res);
+        })
+
+
+    })
+</script>
+{% endblock %}

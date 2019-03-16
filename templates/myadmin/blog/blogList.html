@@ -1,0 +1,137 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <!-- page content -->
+    <div class="right_col" role="main">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>博客文章列表</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+
+{#                    <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p>#}
+
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th class="column-title">ID</th>
+                                <th class="column-title">标题</th>
+                                <th class="column-title">栏目</th>
+                                <th class="column-title">标签</th>
+                                <th class="column-title">时间</th>
+                                <th class="column-title">浏览量</th>
+                                <th class="column-title">点赞数</th>
+
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                <th class="column-title no-link last"><span class="nobr"></span>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for blog in blogs %}
+                            <tr class="{% cycle 'odd' 'even' %} pointer">
+                                <td class=" ">{{ blog.pk }}</td>
+                                <td class=" "><a target="_blank" href="{% url 'blog:blog_detail' slug=blog.slug %}">{{ blog.title }}</a></td>
+                                <td class=" ">{{ blog.column }}</td>
+                                <td class=" ">{{ blog.tag }}</td>
+                                <td class=" ">{{ blog.publish |date:"Y-m-d H:i:s" }}</td>
+                                <td class=" ">{{ blog.reads }}<i class="success fa fa-long-arrow-up"></i></td>
+                                <td class=" ">{{ blog.likes }}<i class="success fa fa-long-arrow-up"></i></td>
+
+                                <td class=" last"><a href="{% url 'myadmin:update_blog' pk=blog.pk %}">编辑</a>
+                                <td class=" last"><a href="javascript:void(0)" class="delete_blog" data-url="{% url 'myadmin:update_blog' pk=blog.pk %}" id="{{ blog.pk }}">删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% resetcycle %}
+                            </tbody>
+                        </table>
+                        {% include 'public/pagination.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+     <div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel2">提示</h4>
+            </div>
+            <div class="modal-body">
+              <h4>确认删除?</h4>
+              <p>删除博客之后前台无法显示</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary confirm-delete" data-url="">确认</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <!-- /page content -->
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+function del(url) {
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        dataType: 'JSON',
+        success: function(res){
+            if (res.code === 200) {
+                new PNotify({
+                    title: '已删除',
+                    text: '删除成功',
+                    type: 'success',
+                    hide: true,
+                    delay: 2000,
+                    styling: 'bootstrap3'
+                });
+                 $('#' + res.pk).parents('.pointer').remove();
+            } else {
+                new PNotify({
+                    title: '出错',
+                    text: '某个环节出错',
+                    type: 'error',
+                    hide: true,
+                    delay: 2000,
+                    styling: 'bootstrap3'
+                });
+            }
+        }
+    })
+}
+
+$('.delete_blog').on('click', function(){
+    let obj = $('.bs-modal-sm');
+    obj.modal('show');
+    obj.find('.confirm-delete').data('url', $(this).data('url'));
+});
+
+$('.confirm-delete').on('click', function(){
+    let url = $(this).data('url');
+    $('.bs-modal-sm').modal('hide');
+    del(url);
+});
+
+
+</script>
+{% endblock %}

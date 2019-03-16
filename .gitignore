@@ -2,4 +2,8 @@
 db.sqlite3
 *.xml
 *.pyc
+laoqiVenv
+*.pid
+*.log
+*.ini
 

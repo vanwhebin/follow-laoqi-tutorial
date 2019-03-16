@@ -69,7 +69,7 @@ class PostDetailNew(DetailView):
                     return JsonResponse({"code": 200,
                                          "msg": "Anyway, we will do it better", 'count': post.user_like.all().count()})
             except:
-                return JsonResponse({"code": 400, "msg": 'Error111'})
+                return JsonResponse({"code": 400, "msg": '请登录后支持'})
         else:
 
             return JsonResponse({"code": 400, "msg": 'Error2222'})

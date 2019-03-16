@@ -1,0 +1,183 @@
+{% extends 'myadmin/public/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <!-- iCheck -->
+    <link href="{% static 'admin/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/google-code-prettify/bin/prettify.min.css' %}" rel="stylesheet">
+    <link href="{% static 'admin/iCheck/skins/flat/green.css' %}" rel="stylesheet">
+    <link href="{% static 'editor/css/editormd.min.css' %}" rel="stylesheet">
+    <div class="right_col" role="main">
+        <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="col-md-9 col-sm-9 col-xs-9 form-group">
+                            <input type="hidden" value="{{ blog.id }}" id="blog_id">
+                            <input type="text" placeholder="请输入标题" class="form-control blog-title" value="{{ blog.title }}">
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <select class="select2_single form-control blog-category" tabindex="-1">
+                                <option>请选择分类</option>
+                                {% for col in columns %}
+                                    {{ col }}
+                                    <option value="{{ col.id }}" {% if col.id == blog.column.id %} selected {% endif %}>{{ col.column }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="control-group">
+                            <div id="mdeditor">
+                                <textarea name="content" id="mdeditor-content" style="display:none">{{ blog.body }}</textarea>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="ln_solid"></div>
+
+                        <div class="control-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input id="tags_1" type="text" class="tags form-control"
+                                       value="{{ tags }}"/>
+                                <div id="suggestions-container"
+                                     style="position: relative; float: left; width: 250px; margin: 10px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 ">
+                                <button type="submit" class="btn btn-success submit">发布</button>
+                                <button type="button" class="btn btn-primary cancel">返回</button>
+{#                                <button type="reset" class="btn btn-primary reset">Reset</button>#}
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+    $(function(){
+        var testEditor = editormd("mdeditor", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            taskList: true,
+            path    : "{% static 'editor/lib/' %}"
+        });
+
+        $('.cancel').on('click', function(){
+            window.location.href = "{% url 'myadmin:blog_list' %}";
+        });
+
+        /*$('.reset').on('click', function(){
+            $('.blog-title').val('');
+            $('.blog-category :selected').removeClass('selected');
+            testEditor.setMarkdown('');
+            $('.tags.form-control').val('')
+        });　*/
+
+        $('.submit').on('click', function(){
+            var title = $('.blog-title').val().trim();
+            var column = $('.blog-category :selected').val().trim();
+            var content = testEditor.getMarkdown();
+            var id = $('#blog_id').val()
+
+            var tags = $('.tags.form-control').val().trim();
+            if (!title) {
+                new PNotify({
+                    title: '提示',
+                    text: '请填写标题！',
+                    type: 'info',
+                    hide: true,
+                    delay: 2000,
+                    styling: 'bootstrap3'
+                });
+                return false;
+            }
+
+            if (!column) {
+                 new PNotify({
+                     title: '提示',
+                     text: '请选择文章栏目！',
+                     type: 'info',
+                     hide: true,
+                     delay: 2000,
+                     styling: 'bootstrap3'
+                });
+                return false;
+            }
+
+            if (!content) {
+                new PNotify({
+                    title: '提示',
+                    text: '文章内容不能为空！',
+                    type: 'info',
+                    hide: true,
+                    delay: 2000,
+                    styling: 'jqueryui'
+                });
+                return false;
+            }
+
+
+            let data = {"title":title, "body": content, "tags": tags.split(','), "column": column};
+            data.csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+
+            if (id) {
+                // update
+                 work('/admin/blog/' + id + '/', data, '更新')
+            } else {
+                // create
+                work('/admin/blog/', data, '创建')
+            }
+
+
+        })
+    });
+
+    function work(url, data, str) {
+        $.post(url, data, function(res) {
+                console.log(res);
+                if (res.code === 200) {
+                    new PNotify({
+                        title: '成功',
+                        text: '文章'+ str +'成功',
+                        type: 'success',
+                        hide: true,
+                        delay: 2000,
+                        styling: 'bootstrap3'
+                    });
+                    setTimeout(function(){
+                       window.location.href = res.url;
+                    }, 2000);
+                } else {
+                    new PNotify({
+                        title: '失败',
+                        text: '文章'+ str +'失败，某一个环节出了问题',
+                        type: 'error',
+                        hide: true,
+                        delay: 4000,
+                        styling: 'bootstrap3'
+                    });
+                }
+            })
+
+    }
+
+    </script>
+
+
+    <script src="{% static 'editor/js/editormd.min.js' %}"></script>
+    <script src="{% static 'admin/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+    <script src="{% static 'admin/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+    <script src="{% static 'admin/google-code-prettify/src/prettify.js' %}"></script>
+
+{% endblock %}
