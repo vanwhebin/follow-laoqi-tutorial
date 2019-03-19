@@ -21,7 +21,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=300)
     slug = models.SlugField(max_length=100, default="", unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    body = models.TextField(max_length=5000, default='', blank=True)
+    body = models.TextField(default='', blank=True)
     publish = models.DateTimeField(default=timezone.now)
     reads = models.PositiveIntegerField(default=1, blank=True)
     likes = models.PositiveIntegerField(default=1, blank=True)
